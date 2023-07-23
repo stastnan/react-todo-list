@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function TodoItem({ todo, setTodos, setTodo }) {
+export default function TodoItem({ todo, setTodos }) {
     
     const TodoItemStyle = {
         display: "flex",
@@ -31,7 +31,7 @@ export default function TodoItem({ todo, setTodos, setTodo }) {
 
         return (
             <li style={TodoItemStyle}>
-                <input type="checkbox" checked={todo.completed} onChange={handleCheckboxChange}/>
+                <input type="checkbox" checked={todo.completed} onChange={handleCheckboxChange} />
                 {isEditing ? (
                     <>
                          <input type="text" value={todo.text} onChange={handleEditTextChange} />

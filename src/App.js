@@ -31,12 +31,10 @@ function App() {
   }
   }
 
-
-
   return (
     <div className="wrapper">
       <h1>My To-do list</h1>
-      <AddTodo addTodo={addTodo} todo={todo} setTodo={setTodo} setTodos={setTodos}/>
+      <AddTodo addTodo={addTodo} todo={todo} setTodo={setTodo} setTodos={setTodos} />
       <TodoList todos={todos} setTodos={setTodos} setTodo={setTodo} />
     </div>
   );
