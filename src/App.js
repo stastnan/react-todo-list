@@ -1,7 +1,7 @@
-import { useState, useReducer } from 'react';
+import { useReducer } from 'react';
 import './App.css';
-import TodoList from './TodoList';
-import AddTodo from './AddTodo';
+import TodoList from './Components/TodoList';
+import AddTodo from './Components/AddTodo';
 
 let idCounter = 0;
 
