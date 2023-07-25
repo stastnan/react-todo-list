@@ -1,41 +1,48 @@
-import { useState } from 'react';
+import { useState, useReducer } from 'react';
 import './App.css';
 import TodoList from './TodoList';
 import AddTodo from './AddTodo';
 
-function App() {
-  const [todos, setTodos] = useState([]);
-  const [idCounter, setIdCounter] = useState(1);
-  const [todo, setTodo] = useState({
-    text: "",
-    id: idCounter,
-    completed: false,
-  })
+let idCounter = 0;
 
-  const addTodo = () => {
-    if (todo.text !== "") {
+function tasksReducer(tasks, action) {
+  switch (action.type) {
+    case "ADD_TODO":
       const newTodo = {
-        ...todo,
-        id: idCounter,
+        id: idCounter++,
         completed: false,
-      }
-
-      setTodos((currentTodos) => [...currentTodos, newTodo]);
-      
-      setTodo({
-        text: "",
-        id: idCounter + 1,
-        completed: false,
-      })
-      setIdCounter((currentIdCounter) => currentIdCounter + 1);  
+        text: action.text,
+      };
+      return [...tasks, newTodo];
+    case "CHECKBOX_TOGGLE":
+      return tasks.map((currentTodo) =>
+        currentTodo.id === action.taskId
+          ? { ...currentTodo, completed: !currentTodo.completed }
+          : currentTodo
+      );
+    case "DELETE_TODO":
+      return tasks.filter((currentTodo) => currentTodo.id !== action.taskId);
+    case "EDIT_TEXT":
+      return tasks.map((currentTodo) =>
+        currentTodo.id === action.taskId
+          ? { ...currentTodo, text: action.newText }
+          : currentTodo
+      );
+    case "CLEAR_ALL":
+      return [];
+    default:
+      return tasks;
   }
-  }
 
+}
+
+function App() {
+  const [todos, dispatch] = useReducer(tasksReducer, []);
   return (
     <div className="wrapper">
       <h1>My To-do list</h1>
-      <AddTodo addTodo={addTodo} todo={todo} setTodo={setTodo} setTodos={setTodos} />
-      <TodoList todos={todos} setTodos={setTodos} setTodo={setTodo} />
+      <AddTodo dispatch={dispatch} />
+      <TodoList todos={todos} dispatch={dispatch} />
     </div>
   );
 }
